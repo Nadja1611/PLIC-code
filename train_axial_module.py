@@ -22,8 +22,6 @@ for i in range(5):
     h4 = model2.fit(lst[i][2],lst[i][3][:,:,:,:1], epochs=300, batch_size = 16, callbacks=[model_checkpoint], verbose=1, validation_data = ( lst[i][0],lst[i][1][:,:,:,:1]) )
 
 
-
-
 #%%predict and add data together again
 prediction=[]
 for i in range(5):
