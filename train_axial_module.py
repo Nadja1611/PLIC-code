@@ -14,17 +14,12 @@ for i in range(0,5):
     indi_val.append(indi[i][0])
 
 
-
 #%%we now train the axial segmentation model on the restricted volumes in axial view
-#h4 = model2.fit(lst[4][2],lst[4][3][:,:,:,:1], epochs=300, batch_size = 32, callbacks=[model_checkpoint], verbose=1, validation_data = ( lst[4][0],lst[4][1][:,:,:,:1]) )
-
 os.chdir("weightdirectory")
 for i in range(5):
     model2=get_unet2()
     model_checkpoint=ModelCheckpoint("weights_axial_cross"+str(i)+".hdf5",save_best_only=True,monitor='loss')
     h4 = model2.fit(lst[i][2],lst[i][3][:,:,:,:1], epochs=300, batch_size = 16, callbacks=[model_checkpoint], verbose=1, validation_data = ( lst[i][0],lst[i][1][:,:,:,:1]) )
-
-
 
 
 
@@ -56,7 +51,4 @@ reconstruction_ax_noth=reconstruct_axial_crossval(prediction_ax_noth, indi_val)
     
     
 #%%save the results
-
-
-
 #np.savez_compressed("Results_axial_crossvalidation.npz", Results=Result)
