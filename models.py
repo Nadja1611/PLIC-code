@@ -2,11 +2,11 @@
 """
 Created on Fri May  6 07:25:05 2022
 
-@author: Nadja
+@author: Nadja 'Gruber
 """
 
 import os
-os.chdir("C://Users//nadja//Documents//PLIC_programm")
+os.chdir(".\\")
 from functions import *
 
 #%% build PLIC-Slice-Selector
