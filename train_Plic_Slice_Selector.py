@@ -6,15 +6,13 @@ os.chdir(".\\")
 from functions import *
 'read in Labels thalamus'
 os.chdir("/datadirectory")
-data= np.load("Labels_thalamus.npz")
-Labels_thal=data["Labels_thal"]
-os.chdir("C://Users//nadja//Documents//PLIC_programm/Data_npz")
+os.chdir(".\\Data")
+
 data = np.load("Training_Babies.npz",allow_pickle=True)
 X_train = data["T1"]
 
 Y_train = data["Labels"]
 indices = data["indices"]
-Labels_thal=make_patient_list_results(indices,Labels_thal)
 X = make_patient_list(indices)[0]
 
 
