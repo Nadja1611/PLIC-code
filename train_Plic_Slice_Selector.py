@@ -2,7 +2,7 @@
 #we do crossvalidation and also generate the ROC curves visualized in the paper
 import os
 
-os.chdir("basedirectory")
+os.chdir(".\\")
 from functions import *
 'read in Labels thalamus'
 os.chdir("/datadirectory")
@@ -26,7 +26,7 @@ Y=fold_slice_labels(Y_patch)
 
 
 
-os.chdir("/weightsdirectory")
+os.chdir(".\\weights")
 #train and validate on the 5 different folds
 for i in range(5):
     model = PLIC_Slice_Selector()
@@ -109,6 +109,6 @@ for i in range(5):
 #Lab_thal_train= Labels_thal[ind_train]
     lst.append([Xseg_test, Yseg_test,Xseg_train, Yseg_train])
     
-    
+os.chdir(".\\Data")    
 #save the results obtained
 np.savez_compressed("Results_class_crossval.npz", results=lst, indi = indi)
