@@ -860,6 +860,36 @@ def fold_slice_labels(Y_folds):
     return Y_class
 
 
+
+#%%generate folds of coronal slices for training on coronal slices
+def generate_folds_coronal(data):
+    liste=[]
+    for i in range(0,5):
+        c = data[i*56*20:(i+1)*56*20]
+        liste.append(c)
+        Sets=[]    
+    for i in range(0,len(liste)):
+        val = liste[i]
+        training = np.concatenate([liste[j] for j in list([0,1,2,3,4]) if j!=i])
+        Sets.append(training)
+    return([Sets,liste])      
+
+#%%generate folds of coronal slices for training on sagittal slices
+def generate_folds_sagittal(data):
+    liste=[]
+    for i in range(0,5):
+        c = data[i*56*20:(i+1)*56*20]
+        liste.append(c)
+        Sets=[]    
+    for i in range(0,len(liste)):
+        val = liste[i]
+        training = np.concatenate([liste[j] for j in list([0,1,2,3,4]) if j!=i])
+        Sets.append(training)
+    return([Sets,liste])   
+
+
+
+
 def reconstruct_axial_crossval(data,ind):
     os.chdir("C:\\Users\\nadja\\Documents\\PLIC_programm\\Data_npz")
     f = np.load("Training_Babies.npz")
