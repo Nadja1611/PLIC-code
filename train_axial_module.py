@@ -1,10 +1,10 @@
 
 import os
 
-os.chdir("basedirectory")
+os.chdir(".\\")
 
 from functions import *
-os.chdir("datadirectory")
+os.chdir(".\\Data")
 #%%we now read in the data obtained by application of plic-slice selector
 data=np.load("Results_class_crossval.npz",allow_pickle=True)
 lst=data["results"]
@@ -15,7 +15,7 @@ for i in range(0,5):
 
 
 #%%we now train the axial segmentation model on the restricted volumes in axial view
-os.chdir("weightdirectory")
+os.chdir(".\\weights")
 for i in range(5):
     model2=get_unet2()
     model_checkpoint=ModelCheckpoint("weights_axial_cross"+str(i)+".hdf5",save_best_only=True,monitor='loss')
