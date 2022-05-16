@@ -18,3 +18,10 @@ The main components of the proposed pipeline are as follows:
 
 
 ## Training
+1. conda create --name <env> --file requirements.txt
+2. In functions.py the functions used for preprocessing and postprocessing, as well as for evaluation can be found
+3. In models.py the slice selection modules as well as the segmentations modules can be found
+4. In the folder "train" these models are trained, weights and output data are generated. 
+ 
+
+
