@@ -4,15 +4,18 @@ import os
 
 os.chdir(".\\")
 from functions import *
-'read in Labels thalamus'
 os.chdir(".\\Data")
 
 data = np.load("Training_Babies.npz",allow_pickle=True)
 X_train = data["T1"]
-
 Y_train = data["Labels"]
 indices = data["indices"]
 X = make_patient_list(indices)[0]
+
+#read in Thalamus Labels
+data= np.load("Labels_thalamus.npz")
+Labels_thal=data["Labels_thal"]
+Labels_thal=make_patient_list_results(indices,Labels_thal)
 
 
 # Create the 5 sets for crossvalidation
