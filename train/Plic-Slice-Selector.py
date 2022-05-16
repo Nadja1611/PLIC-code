@@ -5,7 +5,6 @@ import os
 os.chdir(".\\")
 from functions import *
 'read in Labels thalamus'
-os.chdir("/datadirectory")
 os.chdir(".\\Data")
 
 data = np.load("Training_Babies.npz",allow_pickle=True)
