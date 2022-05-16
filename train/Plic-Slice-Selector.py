@@ -90,6 +90,7 @@ plt.show()
 #loading the weights and predict for each of the 5 folds separately, here we obtain the patches used for axial segmentation (ROI-Restriction)
 lst=[]
 indi=[]
+thal=[]
 for i in range(5):
     model.load_weights("net1_crossval"+str(i)+".hdf5")
     predictions= model.predict(X[i][0])
@@ -106,7 +107,6 @@ for i in range(5):
     ind_train=predict_classifier(X[i][1],Y_patch[i][1],indices,predictions,ROC(X[i][1],Y[i][1], predictions))[2]
 
     indi.append([ind_test,ind_train])    
-#Lab_thal_train= Labels_thal[ind_train]
     lst.append([Xseg_test, Yseg_test,Xseg_train, Yseg_train])
     
 os.chdir(".\\Data")    
