@@ -4,7 +4,7 @@ import os
 os.chdir(".\\")
 from functions import *
 
-os.chdir(".\\Data_npz")
+os.chdir(".\\Data")
 data = np.load("Training_Babies.npz")
 X = data["T1"]
 Y = data["Labels"]
