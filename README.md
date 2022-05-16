@@ -1,3 +1,4 @@
-# PLIC-code
+# Segmentation of posterior limb of internal capsule in preterm neonates
 
-This repository contains the source code of the paper Uncertainty-Aware Temporal Self-Learning (UATS): Semi-Supervised Learning for Segmentation of the Prostate Zones and Beyond,
+This repository contains the source code of the paper "A deep learning pipeline for the automated segmentation of posterior limb of internal
+capsule in preterm neonates",
