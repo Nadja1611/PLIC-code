@@ -29,3 +29,6 @@ The main components of the proposed pipeline are as follows:
    * axial_segmentation_modle.py
    * coronal_segmentation_module.py, sagittal_segmentation_module.py
    * combination_and_plot.py
+ 
+ ## Data
+ The data needed for executing this code consists of a file "Training_Babies.npz" containing the MRI images and the hand annotated segmentation masks and the number of slices per volume, as well as a file "Labels_Thal.npz" containing the slice indices of the slice at the mid-thalamic level in the brain. 
