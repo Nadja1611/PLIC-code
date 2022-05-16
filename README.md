@@ -24,4 +24,8 @@ The main components of the proposed pipeline are as follows:
 4. In the folder "train" these models are trained, weights and output data are generated. 
  
 
-
+   The order of execution of the code is the following:
+   * plic-slice-selector.py
+   * axial-segmentation-moduel
+   * coronal-segmentation-module.py, sagittal-segmentation-moduel.py
+   * combination_and_plot.py
