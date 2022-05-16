@@ -25,7 +25,7 @@ The main components of the proposed pipeline are as follows:
  
 
    The order of execution of the code is the following:
-   * plic-slice-selector.py
+   * Plic-Slice-Selector.py
    * axial_segmentation_modle.py
    * coronal_segmentation_module.py, sagittal_segmentation_module.py
    * combination_and_plot.py
