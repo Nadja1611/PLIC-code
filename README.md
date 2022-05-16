@@ -4,3 +4,7 @@ This repository contains the source code of the paper "A deep learning pipeline 
 capsule in preterm neonates". In the following the steps of the framework are depicted.
 
 <img src="./pipeline_diagram.png">
+
+## Highlights
+
+##Training
