@@ -30,6 +30,12 @@ The main components of the proposed pipeline are as follows:
    * axial_segmentation_modle.py
    * coronal_segmentation_module.py, sagittal_segmentation_module.py
    * combination_and_plot.py
+ 
+ 
+ 
+ 
+ 
+ 
  PLIC-slice selector prepares the ouputs required for further steps. It contains the patches containing PLIC, their indices, as well as the indices of the Thalamic-level slices only restricted on the ROI. These indices are then further used to create sagittal and coronal patches with the center slice being the one between middle and upper third of the thalamus. 
  
  ## Data
