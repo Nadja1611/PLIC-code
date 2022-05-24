@@ -105,7 +105,7 @@ def get_unet2():
     
     model = Model(inputs=images, outputs=out)
     
-    model.compile(optimizer=SGD(lr=1.5e-3, momentum=0.99, decay=1e-3), loss= generalized_dice_loss(weight_bg,weight_fg), metrics=['accuracy'])
+    model.compile(optimizer=SGD(lr=1.5e-3, momentum=0.99, decay=1e-3), loss= dice_loss, metrics=['accuracy'])
 
     return model
 model2=get_unet2()
