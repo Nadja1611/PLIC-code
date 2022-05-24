@@ -6,8 +6,8 @@ from functions import *
 
 os.chdir(".\\Data_npz")
 data = np.load("Training_Babies.npz")
-X = data["T1"]
-Y = data["Labels"]
+X_train = data["T1"]
+Y_train = data["Labels"]
 Labels=np.copy(Y)
 indices = np.load("indices.npz")
 indices = indices["indices"]
@@ -19,8 +19,8 @@ thalamus = Thalamus["thalamus"]
 
 
 os.chdir(".\\")
-X = preprocessing_coronal_crossvalidation(X,Y,indices,thalamus)[0]
-Y=preprocessing_coronal_crossvalidation(X,Y,indices,thalamus)[1]
+X = preprocessing_coronal_crossvalidation(X_train,Y_train,indices,thalamus)[0]
+Y=preprocessing_coronal_crossvalidation(X_train,Y_train,indices,thalamus)[1]
 
 
 
