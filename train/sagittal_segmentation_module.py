@@ -1,9 +1,6 @@
 import os
 os.chdir(".\\")
 from functions import *
-#https://github.com/ContinuumIO/anaconda-issues/issues/12194
-#installation of tensorflow in prompt
-#Python 3.8: conda install tensorflow-gpu=2.3 tensorflow=2.3=mkl_py38h1fcfbd6_0
 
 
 
