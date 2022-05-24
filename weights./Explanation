@@ -1,1 +1,3 @@
-Here are the weights obtained using 5-fold-crossvalidation for PLIC-slice-Selector (
+Here are the weights obtained using 5-fold-crossvalidation for PLIC-slice-Selector (net1_crossval+.hdf5), axial segmentation module (net2_crossvalidation#.hdf5), 
+coronal and sagittal segmentation modules (names should be clear)
+and Thalamic Slice selection (thalamus_crossvaldiation#.hdf5)
