@@ -1,4 +1,10 @@
 
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Mar 27 12:35:03 2021
+
+@author: nadja gruber
+"""
 import os
 import tensorflow as tf
 gpus=tf.config.experimental.list_physical_devices('GPU')
@@ -192,6 +198,30 @@ def preprocessing_sagittal(X,Y,indices,thalamus_training,thalamus_val):
     Y_val = np.expand_dims(Y_val, axis=-1)
     return X_train,Y_train,X_val,Y_val
 
+'''preprocessing sagittal data for training crossvalidation'''
+def preprocessing_sagittal_crossvalidation(X,Y,indices,thalamus_training):
+    X_train = np.moveaxis(X,2,0)
+    Y_train = np.moveaxis(Y,2,0)
+    X_res = create_boxes_sag(X_train,thalamus_training,indices)[1]
+    Y_res = create_boxes_sag(Y_train,thalamus_training,indices)[1]
+    X_res = preprocessing_no_patching(X_res)
+    X_train=np.concatenate(X_res,axis=0)
+    Y_train=np.concatenate(Y_res,axis=0)
+    Y_train = np.expand_dims(Y_train, axis=-1)
+    return X_train,Y_train
+
+
+
+def preprocessing_coronal_crossvalidation(X,Y,indices,thalamus_training):
+    X_train = np.moveaxis(X,0,1)
+    Y_train = np.moveaxis(Y,0,1)
+    X_res = create_boxes_cor(X_train,thalamus_training,indices)[1]
+    Y_res = create_boxes_cor(Y_train,thalamus_training,indices)[1]
+    X_res = preprocessing_no_patching(X_res)
+    X_train=np.concatenate(X_res,axis=0)
+    Y_train=np.concatenate(Y_res,axis=0)
+    Y_train = np.expand_dims(Y_train, axis=-1)
+    return X_train,Y_train
 
 
 '''preprocessing of test data for prediction of coronal'''
@@ -257,7 +287,7 @@ def reconstruct_thal(pred,ind,indices):
 
 
 def make_patient_list(indices):
-    os.chdir("C://Users//nadja//Documents//PLIC_programm/Data_npz")
+    os.chdir("C://Users//Nadja//Documents//PLIC_überarbeitet//Data_npz")
     data = np.load("Training_Babies.npz",allow_pickle=True)
     patients= data["T1"]
     indices = data["indices"]
@@ -273,7 +303,7 @@ def make_patient_list(indices):
     return liste,indices
 
 def make_labels_list(indices):
-    os.chdir("C://Users//nadja//Documents//PLIC_programm/Data_npz")
+    os.chdir("C://Users//Nadja//Documents//PLIC_überarbeitet//Data_npz")
     data = np.load("Training_Babies.npz",allow_pickle=True)
     patients= data["Labels"]
     indices = data["indices"]
@@ -676,6 +706,7 @@ def area_leftright_total_diam4(Final_Results,Results):
 
     return areas,areas_short
 
+
   
 
 '''crossvalidation functions'''''''''''''''''''''''''''
@@ -715,27 +746,31 @@ def cross_val(data,N, indices):
     return Sets
 
 
-'''generates labels for classification network'''
-def fold_slice_labels(Y_folds):
-    new_list1=[]
-    new_list2=[]
-    for i in range(0,len(Y_folds)):
-        M_val = Y_folds[i][0]#for val data
-        M = np.sum(np.sum(M_val,axis = 2),axis=1)
-        v1 = np.float32((M[:,0]>0))
-        lab_val = np.stack((v1,1-v1),axis=-1)
-        M_val = Y_folds[i][1]#for training data
-        M = np.sum(np.sum(M_val,axis = 2),axis=1)
-        v1 = np.float32((M[:,0]>0))
-        lab_train = np.stack((v1,1-v1),axis=-1)
-        new_list1.append(lab_val)
-        new_list2.append(lab_train)
-        liste=[new_list1,new_list2]
-        liste = np.asarray(liste)
-        liste = np.moveaxis(liste,0,1)
-    Y_class=liste    
-    return Y_class
+'''creates cross validation data, i.e. generates N folds from data'''   
+def cross_val_thalamus(data,N, indices):
+    maximum = len(data)
+    factor = np.round(int(maximum)/N)
+    folds=[]
+    Patient=[]
+  #  folds.append(data[:np.int(factor)])
+    for i in range(0,N):
+        fold = data[i*int(factor):(i+1)*int(factor)]
+        P = [i*int(factor),(i+1)*int(factor)]
+        folds.append(fold)
+        Patient.append(P)
+    final_folds=[]    
+    for i in range(0,len(folds)): 
+        fold = np.concatenate(np.asarray(folds[i]),axis=0)
+        #fold = np.asarray(np.expand_dims(fold,axis=-1))
+        final_folds.append(fold)
 
+    
+    Sets=[]
+    for i in range(0,len(final_folds)):
+        val = final_folds[i]
+        training = np.concatenate([final_folds[j] for j in list([0,1,2,3,4]) if j!=i])
+        Sets.append([val,training,Patient])
+    return Sets
 
 
 #%%generate folds of coronal slices for training on coronal slices
@@ -765,10 +800,30 @@ def generate_folds_sagittal(data):
     return([Sets,liste])   
 
 
+'''generates labels for classification network'''
+def fold_slice_labels(Y_folds):
+    new_list1=[]
+    new_list2=[]
+    for i in range(0,len(Y_folds)):
+        M_val = Y_folds[i][0]#for val data
+        M = np.sum(np.sum(M_val,axis = 2),axis=1)
+        v1 = np.float32((M[:,0]>0))
+        lab_val = np.stack((v1,1-v1),axis=-1)
+        M_val = Y_folds[i][1]#for training data
+        M = np.sum(np.sum(M_val,axis = 2),axis=1)
+        v1 = np.float32((M[:,0]>0))
+        lab_train = np.stack((v1,1-v1),axis=-1)
+        new_list1.append(lab_val)
+        new_list2.append(lab_train)
+        liste=[new_list1,new_list2]
+        liste = np.asarray(liste)
+        liste = np.moveaxis(liste,0,1)
+    Y_class=liste    
+    return Y_class
 
 
 def reconstruct_axial_crossval(data,ind):
-    os.chdir("C:\\Users\\nadja\\Documents\\PLIC_programm\\Data_npz")
+    os.chdir("C://Users//Nadja//Documents//PLIC_überarbeitet//Data_npz")
     f = np.load("Training_Babies.npz")
     X = f["T1"]
     indices = f["indices"]
@@ -1027,6 +1082,11 @@ def find_best_jc(combi,Labels):
 
 
 
+
+
+
+
+
 def evaluate_hd(X,Y):
     #hds=[]
     hd_all=[]
@@ -1098,8 +1158,6 @@ def evaluate_precision(X,Y):
             hd_all.append(hd_per_patient)
     #hds.append(hd)
     return hd_all
-
-
 def find_best_precision(combi,Labels):
     dices=[]
     Liste = [0.3333333,0.66666,1,1.33,1.666,2,2.333333,2.6666666]
