@@ -5,34 +5,8 @@ Created on Mon Aug 28 11:23:55 2023
 @author: nadja
 """
 
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import Dataset,DataLoader
-from torchvision import utils,models
-import torch.nn.functional as F
-import torchvision.transforms as T
-from sklearn.model_selection import train_test_split
-import PIL
-from PIL import Image
-from tqdm import trange
-from time import sleep
-from scipy.io import loadmat
-import torchvision.datasets as dset
-from torch.utils.data import sampler
-from torch.nn.parallel import DistributedDataParallel as DDP
-import torch.multiprocessing as mp
-import torch.distributed as dist
-from torch.nn import init, ReflectionPad2d, ZeroPad2d
-from torch.optim import lr_scheduler
-from torch.utils.data import TensorDataset, DataLoader
-from torch.optim import Adam
 from unet_blocks import *
-import numpy as np
-import matplotlib.pyplot as plt
-import gc
 from read_in_DICOM import *
-torch.manual_seed(0)
 from functions_test import *
 from predict_test import *
 import argparse
