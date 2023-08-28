@@ -12,10 +12,6 @@ from matplotlib.pyplot import imshow
 import nibabel as nib
 import glob
 from matplotlib.pyplot import imshow, colorbar
-import argparse
-from matplotlib import pyplot as plt
-
-
 from PIL import ImageEnhance
 from sklearn.metrics import roc_curve, auc
 import pydicom
@@ -25,8 +21,6 @@ from os import listdir
 from PIL import Image
 from skimage.transform import resize
 
-'''reads in labels and data, saves indices i.e. number of slices, as well as T1 images in a row'm in total'''
-''''we work with 98 babies. 3 are excluded'''
 
 
 
