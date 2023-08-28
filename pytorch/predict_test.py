@@ -506,7 +506,7 @@ def predict( mynet, weight_path):
 
 
 
-''' predict on axial, sagittal and coronal views and reconstruct coronal and sagittal into axial views and combine to output '''
+''' predict on axial, sagittal and coronal views and reconstruct coronal and sagittal into axial views and combine to output, this returns volume in mm^3, segmented image, and original T1 img'''
 def predict_and_compute_volume(mynet, weight_path, indices, Voxels, Spacings, T1_orig):
     Sag = []
     Cor = []
