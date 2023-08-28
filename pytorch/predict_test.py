@@ -5,14 +5,6 @@ Created on Mon Aug 28 09:37:34 2023
 @author: nadja
 """
 
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Aug  9 11:30:49 2023
-
-@author: nadja
-"""
-
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
