@@ -12,6 +12,10 @@ from matplotlib.pyplot import imshow
 import nibabel as nib
 import glob
 from matplotlib.pyplot import imshow, colorbar
+import argparse
+from matplotlib import pyplot as plt
+
+
 from PIL import ImageEnhance
 from sklearn.metrics import roc_curve, auc
 import pydicom
@@ -21,31 +25,25 @@ from os import listdir
 from PIL import Image
 from skimage.transform import resize
 
+'''reads in labels and data, saves indices i.e. number of slices, as well as T1 images in a row'm in total'''
+''''we work with 98 babies. 3 are excluded'''
 
 
 
+input_path = "C://Users//nadja//Documents//PLIC Segmentation//PLIC_pytorch//Babies//"
 '''--------------------------------read in DWI----------------------------------------'''
-def read_in(input_path, Baby):
+def read_in(input_path):
     ds=[]
     Patient=[]
     Patches = []
-    length = []
-    Spacings=[]
-    T1_orig=[]
-    Voxels=[]
-    for i in range(Baby, Baby+1):   
+    for i in range(100,200):   
         PathDicom_t1 =  input_path + "P" +str(i)+"//T1//DCM0"
         for j in os.listdir(PathDicom_t1): 
             if j != "F0000000":
-                ds1 = pydicom.dcmread( input_path + "P"+str(i)+"//T1//DCM0//"+j)     
-                Pixel_spacings = ds1.PixelSpacing
-                Thickness  = ds1.SliceThickness
+                ds1 = pydicom.dcmread( input_path + "P"+str(i)+"//T1//DCM0//"+j)               
                 ds1 = ds1.pixel_array
-                length.append(j)
-                ds.append(ds1)
-                T1_orig.append(ds1)
-        Spacings = list([Thickness, Pixel_spacings[0],Pixel_spacings[1]])
-        Voxels = list([len(length), ds1.shape[0], ds1.shape[1]])
+                
+                ds.append(ds1)  
         ds = np.asarray(ds)        
         if ds.shape[0] > 110 or ds.shape[0]<90:
             print(ds.shape)
@@ -90,10 +88,10 @@ def read_in(input_path, Baby):
         liste.append(P)
     
     Patienten_liste = liste
-    return T1, Patches, indices, Voxels, Spacings, np.asarray(T1_orig)
+    return T1, Patches, indices
 
 
-#np.savez_compressed("Baby_"+str(Baby)+".npz",  T1 = read_in(input_path,Baby)[0], indices = read_in(input_path,Baby)[2], T1_patches = read_in(input_path,Baby)[1], Voxels= read_in(input_path,Baby)[3], Spacings =  read_in(input_path,Baby)[4])
+np.savez_compressed("Babies.npz",  T1 = read_in(input_path)[0], indices = read_in(input_path)[2], T1_patches = read_in(input_path)[1])
 
 
 
