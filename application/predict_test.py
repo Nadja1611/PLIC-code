@@ -16,30 +16,12 @@ Created on Wed Aug  9 11:30:49 2023
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import Dataset,DataLoader
-from torchvision import utils,models
 import torch.nn.functional as F
-import torchvision.transforms as T
-from sklearn.model_selection import train_test_split
-import PIL
-from PIL import Image
-from tqdm import trange
-from time import sleep
-from scipy.io import loadmat
-import torchvision.datasets as dset
-from torch.utils.data import sampler
-from torch.nn.parallel import DistributedDataParallel as DDP
-import torch.multiprocessing as mp
-import torch.distributed as dist
-from torch.nn import init, ReflectionPad2d, ZeroPad2d
-from torch.optim import lr_scheduler
-from torch.utils.data import TensorDataset, DataLoader
-from torch.optim import Adam
+from torch.utils.data import DataLoader
 from unet_blocks import *
 import numpy as np
 import matplotlib.pyplot as plt
 import gc
-
 torch.manual_seed(0)
 from functions_test import *
 
@@ -117,7 +99,7 @@ class Segmentation_of_PLIC:
     def __init__(
         self,
         learning_rate: float = 5e-5,
-        device: str = 'cpu',
+        #device: str = 'cpu',
         inputs: str = "T1",
         sliceview: str= "axial",
     ):
@@ -132,16 +114,19 @@ class Segmentation_of_PLIC:
         self.learning_rate = 5e-5
         self.net = UNet(1,1)
         self.weight = 0.001
-        #self.inputs = "DWI"
-        self.segmentation_net = UNet(n_channels=1,n_classes=1).to(device)
-        self.segmentation_net_sag = UNet(n_channels=1,n_classes=1).to(device)
-        self.segmentation_net_cor = UNet(n_channels=1,n_classes=1).to(device)
+        #self.inputs = "DWI
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
+        self.segmentation_net = UNet(n_channels=1,n_classes=1).to(self.device)
+        self.segmentation_net_sag = UNet(n_channels=1,n_classes=1).to(self.device)
+        self.segmentation_net_cor = UNet(n_channels=1,n_classes=1).to(self.device)
         
+
         self.optimizer = optim.Adam(self.segmentation_net.parameters(), lr=self.learning_rate)
         self.optimizer_cor = optim.Adam(self.segmentation_net_cor.parameters(), lr=self.learning_rate)
         self.optimizer_sag = optim.Adam(self.segmentation_net_sag.parameters(), lr=self.learning_rate)
 
-        self.device = 'cpu'
         self.Dice = 0
         self.Dice_isles = 0
         self.inputs = inputs
